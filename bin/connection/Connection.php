@@ -39,9 +39,8 @@ class Connection
                 . "dbname={$DATABASE};charset={$CODING}";
             // Create connection
             $this->connection = new PDO($url, $USER, $PASSWORD);
-            echo "CONNECTED";
+            return $this->connection;
         } catch (Exception $exc) {
-            echo "COULD NOT CONNECT";
             echo $exc->getTraceAsString();
         }
     }
