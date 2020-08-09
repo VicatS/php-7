@@ -49,6 +49,46 @@ class Crud
         }
     }
 
+    public function update($obj)
+    {
+        try {
+            $fields = "";
+            foreach ($obj as $key => $value){
+                $fields .= "`$key`=:$key,"; //`names`=:Victorio,`age`=:30
+            }
+            $fields = rtrim($fields, ",");
+            $this->sql = "UPDATE {$this->table} SET {$fields} {$this->wheres}";
+            $rowsAffected = $this->execute($obj);
+            return $rowsAffected;
+        } catch (Exception $exc) {
+            echo $exc->getTraceAsString();
+        }
+    }
+
+    public function delete(){
+        try {
+            $this->sql = "DELETE FROM {$this->table} {$this->wheres}";
+            $rowsAffected = $this->execute();
+            return $rowsAffected;
+        } catch (Exception $exc) {
+            echo $exc->getTraceAsString();
+        }
+
+    }
+
+
+    public function where($key, $condition, $value) {
+        $this->wheres .= (strpos($this->wheres, "WHERE")) ? " AND " : " WHERE ";
+        $this->wheres .= "`$key` $condition " . ((is_string($value)) ? "\"$value\"" : $value) . " ";
+        return $this;
+    }
+
+    public function orWhere($key, $condition, $value) {
+        $this->wheres .= (strpos($this->wheres, "WHERE")) ? " OR " : " WHERE ";
+        $this->wheres .= "`$key` $condition " . ((is_string($value)) ? "\"$value\"" : $value) . " ";
+        return $this;
+    }
+
     private function execute($obj = null)
     {
         $sth = $this->connection->prepare($this->sql);
@@ -70,5 +110,4 @@ class Crud
         $this->wheres = "";
         $this->sql = null;
     }
-
 }
