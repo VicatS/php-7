@@ -1,35 +1,27 @@
 <?php
 require_once './bin/connection/Connection.php';
 require_once './bin/persistence/Crud.php';
+require_once './bin/persistence/models/GenericModel.php';
+require_once './bin/persistence/models/User.php';
 
-$crud = new Crud("users");
-//$id = $crud->insert([
-//    "names" => "CRISTINA",
-//    "surnames" => "PACO ROQUE",
-//    "age" => "34",
-//    "email" => "cristy@gmail.com",
-//    "phone" => "57-5651656465250",
-//    "registration_date" => date("Y-m-d H:i:s"),
-//]);
-//echo "The ID INSERTED IS: ".$id;
-echo "<br>";
-$rowsAffected = $crud->where("id", "=", 9)->update([
-    "names" => "AURONPLAY",
-    "surnames" => "ROJAS FLORES",
-    "age" => "33",
-    "email" => "elauron@gmail.com",
-    "phone" => "34-1651544090"
-]);
 
-$rowsDeleted = $crud->where("id", "=",3)->delete();
+$user = new User();
+$register = $user->where("email", "=", 'solomeo@gmail.com')->get();
 
-echo "Rows Affected: " . $rowsAffected;
-echo "<br>";
-echo "DELETED: " . $rowsDeleted;
-echo "<br>";
+var_dump($register);
 
-$list = $crud->get();
-var_dump($list);
+/*$user->setNames("JJ");
+$user->setSurnames("FLORES");
+$user->setAge("25");
+$user->setEmail("jjflores@gmail.com");
+$user->setPhone("6666666");
+$user->setRegistrationDate(date("Y-m-d H:i:s"));
+$user->insert();
+var_dump((new User())->get());*/
 
+
+/*$userModel = new User();
+$list = $userModel->get();
+var_dump($list);*/
 
 
